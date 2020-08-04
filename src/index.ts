@@ -1,18 +1,45 @@
-import "./index.css";
+import { MeetingResource } from "./models/meetingResource";
+import { /*ConferenceRoom*/ conferenceRoomData } from "./models/conferenceRoom";
+// import { PartyTent, partyTentData } from "./models/partyTent";
+// import { Building, buildingData } from "./models/building";
+import "./models/reservation";
 
-import "./chapter-01";
+function getBigRooms<T extends MeetingResource>(
+  rooms: Array<T>,
+  minSize: number
+): Array<T> {
+  let bigRooms: Array<T> = [];
 
-import { add } from "./common/math";
+  rooms.forEach((r) => {
+    if (r.capacity > minSize) {
+      bigRooms.push(r);
+    }
+  });
 
-export class C {
-  private x = 17;
-  getX = () => this.x;
-  setX = (newVal: number) => {
-    this.x = newVal;
-  };
+  return bigRooms;
 }
 
-export let x = new C();
-export let y = { ...{ some: "value" } };
+let getLargeRooms: <T extends MeetingResource>(
+  rooms: Array<T>,
+  minSize: number
+) => Array<T>;
 
-console.log(add(3, 4));
+getLargeRooms = getBigRooms;
+
+let largeRooms = getLargeRooms(conferenceRoomData, 10);
+
+console.log(largeRooms);
+
+// function shortenArray<T>(data: Array<T>, amountToShorten: number): Array<T> {
+//   return data.splice(amountToShorten, data.length);
+// }
+
+// let shrinkArray: <U>(original: Array<U>, units: number) => Array<U>;
+
+// shrinkArray = shortenArray;
+
+// let stringArray: string[] = ["Visual Basic", "C++", "TypeScript", "JavaScript"];
+
+// let fewerLanguages = shortenArray<string>(stringArray, 2);
+
+// console.log(fewerLanguages);
